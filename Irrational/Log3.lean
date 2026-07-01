@@ -1,5 +1,7 @@
 import Mathlib
 
+namespace Irrational
+
 /-!
 
 # Proof that log₃(2) is irrational.
@@ -64,3 +66,9 @@ theorem log2_3_irrational (a b : ℕ) (ha : a > 0) (_ : b > 0) : 2^a ≠ 3^b := 
   -- Step 4: Contradiction!
   -- It is impossible for left to be even and right to be odd.
   exact h_right_odd h_right_even
+
+/-! Checks.
+  check log2_3_irrational
+-/
+
+end Irrational
