@@ -14,6 +14,17 @@ def f (x : ℕ) := 3 * x
 
 -- #eval f 1 = 3
 
+/-! Equivalent to f above. -/
+#check fun (x : ℕ) => 3 * x
+-- fun x => 3 * x : ℕ → ℕ
+
+#check λ (x : ℕ) => 3 * x
+-- fun x => 3 * x : ℕ → ℕ
+
+#eval (λ x : ℕ => 3 * x) 12
+-- 36
+
+
 /-!
   Simple test of function $f (1) = 3$
 -/
@@ -99,5 +110,28 @@ example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
 example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
   rw [mul_comm]
   rw [mul_assoc]
+
+/-!
+  Example from the introduction of [Theorem Proving in Lean](https://lean-lang.org/theorem_proving_in_lean4/Introduction/#Intro)
+
+  Declares a theorem named `and_commutative` stating that for any propositions
+  `p` and `q`, `p ∧ q` implies `q ∧ p`. The `:=` begins the proof.
+-/
+theorem and_commutative (p q : Prop) : p ∧ q → q ∧ p :=
+  -- Assumes the premise `p ∧ q` is true and binds its proof to the name `hpq`.
+  -- Proving an implication `A → B` in Lean is done by providing a function
+  -- that takes a proof of `A` and returns a proof of `B`.
+  fun hpq : p ∧ q =>
+  -- Extracts the proof of the left side (`p`) from the conjunction `hpq`
+  -- using `And.left`, and binds it to the name `hp`.
+  have hp : p := And.left hpq
+  -- Extracts the proof of the right side (`q`) from the conjunction `hpq`
+  -- using `And.right`, and binds it to the name `hq`.
+  have hq : q := And.right hpq
+  -- Constructs the final goal `q ∧ p` using `And.intro`, which takes a proof
+  -- of the left side (`hq`) and a proof of the right side (`hp`) to form a
+  -- proof of the conjunction. The `show ... from` syntax explicitly states
+  -- the proposition being proved for clarity.
+  show q ∧ p from And.intro hq hp
 
 end Scrapbook
