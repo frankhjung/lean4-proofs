@@ -9,7 +9,7 @@ endif
 LAKE	:= LD_LIBRARY_PATH="$(LEAN_PREFIX)/lib" lake
 RM	:= rm -rf
 
-.PHONY:	all build clean default help update
+.PHONY:	all build clean default lint help update
 
 default: build ## Default goal: build project
 
@@ -25,9 +25,11 @@ help: ## Show this help message
 	{ printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' \
 	$(MAKEFILE_LIST)
 
+lint: ## Lint the project
+	@$(LAKE) lint --lint-only $(PROJECT)
+
 build: ## Build the project using Lake
 	@$(LAKE) build
-	#@$(LAKE) lint --lint-only $(PROJECT)
 
 clean: ## Clean the build artifacts
 	@$(LAKE) clean
