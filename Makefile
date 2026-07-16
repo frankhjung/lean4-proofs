@@ -6,6 +6,7 @@ ifeq ($(LEAN_PREFIX),)
 $(error Lean not found. Please ensure Lean 4 is installed and available in your PATH.)
 endif
 LAKE	:= LD_LIBRARY_PATH="$(LEAN_PREFIX)/lib" lake
+CD	:= cd
 
 .PHONY:	all build clean default lint help update
 
@@ -29,9 +30,15 @@ lint: ## Lint the project
 build: ## Build the project using Lake
 	@$(LAKE) build $(PROJECTS)
 
+doc: ## Generate documentation using Lake
+	$(CD) docbuild && \
+	$(LAKE) build $(addsuffix :docs,$(PROJECTS))
+
 clean: ## Clean the build artifacts
 	@$(LAKE) clean
 
 update: ## Update the dependencies using Lake
 	@echo "elan default $(shell cat lean-toolchain)"
 	@$(LAKE) update
+	@$(CD) docbuild && \
+	$(LAKE) update doc-gen4

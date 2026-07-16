@@ -1,15 +1,16 @@
 ---
-name: lean4-proofs
+name: lean4-proofs-ci
 
 on:
   push:
     branches:
-      - main
+      - "**"
+    tags:
+      - "*"
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,6 +18,24 @@ concurrency:
 
 jobs:
   build:
+    if: "!startsWith(github.ref, 'refs/tags/')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Build, test and lint the project
+        id: build-lean
+        uses: leanprover/lean-action@v1
+        with:
+          use-mathlib-cache: true
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,15 +43,32 @@ jobs:
       id-token: write
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
-      - name: Build project
-        id: build-lean
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Re-build the project
         uses: leanprover/lean-action@v1
         with:
           use-mathlib-cache: true
           test: false
           lint: false
+
+      - name: Build documentation
+        run: |
+          cd docbuild
+          lake build Irrational:docs Scrapbook:docs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docbuild/.lake/build/doc
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
