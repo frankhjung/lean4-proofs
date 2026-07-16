@@ -1,13 +1,11 @@
 .DEFAULT_GOAL := default
 
-PROJECT := Irrational
-CD	:= cd
+PROJECTS := Irrational Scrapbook
 LEAN_PREFIX := $(shell lean --print-prefix 2>/dev/null)
 ifeq ($(LEAN_PREFIX),)
 $(error Lean not found. Please ensure Lean 4 is installed and available in your PATH.)
 endif
 LAKE	:= LD_LIBRARY_PATH="$(LEAN_PREFIX)/lib" lake
-RM	:= rm -rf
 
 .PHONY:	all build clean default lint help update
 
@@ -26,10 +24,10 @@ help: ## Show this help message
 	$(MAKEFILE_LIST)
 
 lint: ## Lint the project
-	@$(LAKE) lint --lint-only $(PROJECT)
+	@$(LAKE) lint --lint-only $(PROJECTS)
 
 build: ## Build the project using Lake
-	@$(LAKE) build
+	@$(LAKE) build $(PROJECTS)
 
 clean: ## Clean the build artifacts
 	@$(LAKE) clean

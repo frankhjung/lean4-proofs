@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic
 
 namespace Scrapbook
 
@@ -110,6 +110,10 @@ example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
 example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
   rw [mul_comm]
   rw [mul_assoc]
+
+/-! Ring example. -/
+example (R : Type*) [CommRing R] (x y : R) : (x + y)^3 = x^3 + 3*x^2*y + 3*x*y^2 + y^3 := by
+  ring
 
 /-!
   Example from the introduction of [Theorem Proving in Lean](https://lean-lang.org/theorem_proving_in_lean4/Introduction/#Intro)

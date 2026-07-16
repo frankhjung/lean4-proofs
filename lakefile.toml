@@ -1,10 +1,14 @@
 name = "Irrational"
 version = "0.1.0"
-defaultTargets = ["Irrational"]
+defaultTargets = ["Irrational", "Scrapbook"]
 
 [[lean_lib]]
 name = "Irrational"
 globs = ["Irrational", "Irrational.+"]
+
+[[lean_lib]]
+name = "Scrapbook"
+globs = ["Scrapbook", "Scrapbook.+"]
 
 [[require]]
 name = "Mathlib"
