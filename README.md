@@ -81,14 +81,35 @@ as a rational fraction, meaning it is irrational. $\square$
 
 ## Update Project Dependencies
 
-To update the latest stable version of the lean prover:
+To upgrade to a new stable version of the Lean prover (e.g. v4.32.0):
 
-* get latest stable version from <https://github.com/leanprover/lean4/releases>
-* update the toolchain version in [./lean-toolchain.nix](./lean-toolchain.nix)
-* update the toolchain version in [docbuild/lean-toolchain.nix](docbuild/lean-toolchain.nix)
-* use `elan` to install stable version `elan toolchain install leanprover/lean4:stable
-* run `lake update`
-* change to `docbuild` and run `lake update`
+1. Find the latest stable release at
+   <https://github.com/leanprover/lean4/releases>
+
+2. Install the toolchain:
+
+   ```bash
+   elan toolchain install leanprover/lean4:v4.32.0
+   elan default leanprover/lean4:v4.32.0
+   ```
+
+3. Update `lean-toolchain` files:
+
+   ```bash
+   echo 'leanprover/lean4:v4.32.0' > lean-toolchain
+   cp lean-toolchain docbuild/lean-toolchain
+   ```
+
+4. Update `rev` pins in lakefiles to match:
+   * `lakefile.toml` — set Mathlib `rev = "v4.32.0"`
+   * `docbuild/lakefile.toml` — set doc-gen4 `rev = "v4.32.0"`
+
+5. Delete stale manifests and regenerate:
+
+   ```bash
+   rm -f lake-manifest.json docbuild/lake-manifest.json
+   make update
+   ```
 
 ## References
 

@@ -38,6 +38,26 @@ doc: ## Generate documentation using Lake
 clean: ## Clean the build artifacts
 	@$(LAKE) clean
 
+# To upgrade to a new stable Lean version (e.g. v4.32.0):
+#
+#   1. Find the latest stable release at:
+#      https://github.com/leanprover/lean4/releases
+#
+#   2. Install the toolchain:
+#      elan toolchain install leanprover/lean4:v4.32.0
+#      elan default leanprover/lean4:v4.32.0
+#
+#   3. Update lean-toolchain files:
+#      echo 'leanprover/lean4:v4.32.0' > lean-toolchain
+#      cp lean-toolchain docbuild/lean-toolchain
+#
+#   4. Update rev pins in lakefiles to match:
+#      - lakefile.toml:         rev = "v4.32.0"  (Mathlib)
+#      - docbuild/lakefile.toml: rev = "v4.32.0"  (doc-gen4)
+#
+#   5. Delete stale manifests and regenerate:
+#      rm -f lake-manifest.json docbuild/lake-manifest.json
+#      make update
 update: ## Update the dependencies using Lake
 	@echo "elan default $(shell cat lean-toolchain)"
 	@$(LAKE) exe cache get
