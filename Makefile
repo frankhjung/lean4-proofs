@@ -28,6 +28,7 @@ lint: ## Lint the project
 	@$(LAKE) lint --lint-only $(PROJECTS)
 
 build: ## Build the project using Lake
+	@$(LAKE) exe cache get
 	@$(LAKE) build $(PROJECTS)
 
 doc: ## Generate documentation using Lake
@@ -39,6 +40,8 @@ clean: ## Clean the build artifacts
 
 update: ## Update the dependencies using Lake
 	@echo "elan default $(shell cat lean-toolchain)"
+	@$(LAKE) exe cache get
 	@$(LAKE) update
 	@$(CD) docbuild && \
-	$(LAKE) update doc-gen4
+	$(LAKE) exe cache get && \
+	$(LAKE) update

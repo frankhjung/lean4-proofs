@@ -76,11 +76,23 @@ This directly contradicts our initial assumption that the fraction $\frac{a}{b}$
 is irreducible (i.e., that $a$ and $b$ are coprime and share no common divisors
 greater than $1$).
 
-Therefore, our initial assumption must be false. $\sqrt{2}$ cannot be expressed as a rational fraction, meaning it is irrational. $\square$
+Therefore, our initial assumption must be false. $\sqrt{2}$ cannot be expressed
+as a rational fraction, meaning it is irrational. $\square$
+
+## Update Project Dependencies
+
+To update the latest stable version of the lean prover:
+
+* get latest stable version from <https://github.com/leanprover/lean4/releases>
+* update the toolchain version in [./lean-toolchain.nix](./lean-toolchain.nix)
+* update the toolchain version in [docbuild/lean-toolchain.nix](docbuild/lean-toolchain.nix)
+* use `elan` to install stable version `elan toolchain install leanprover/lean4:stable
+* run `lake update`
+* change to `docbuild` and run `lake update`
 
 ## References
 
-- [Lean 4](https://lean-lang.org)
-- [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
-- [Mathlib](https://lean-lang.org/use-cases/mathlib/)
-- [Theorem Proving in Lean 4](http://leanprover.github.io/theorem_proving_in_lean4/)
+* [Lean 4](https://lean-lang.org)
+* [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+* [Mathlib](https://lean-lang.org/use-cases/mathlib/)
+* [Theorem Proving in Lean 4](http://leanprover.github.io/theorem_proving_in_lean4/)

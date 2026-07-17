@@ -13,4 +13,4 @@ globs = ["Scrapbook", "Scrapbook.+"]
 [[require]]
 name = "Mathlib"
 scope = "leanprover-community"
-rev = "v4.31.0"
+rev = "v4.32.0"
