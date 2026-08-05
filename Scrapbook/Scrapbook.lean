@@ -1,4 +1,6 @@
-import Mathlib.Tactic
+import Mathlib.Algebra.Group.Nat.Even
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic.Ring
 
 namespace Scrapbook
 

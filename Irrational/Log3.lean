@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.Tactic.Ring
 
 namespace Irrational
 
