@@ -115,5 +115,6 @@ To upgrade to a new stable version of the Lean prover (e.g. v4.32.0):
 
 * [Lean 4](https://lean-lang.org)
 * [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+* [The Mechanics of Proof](https://hrmacbeth.github.io/math2001/index.html)
 * [Mathlib](https://lean-lang.org/use-cases/mathlib/)
 * [Theorem Proving in Lean 4](http://leanprover.github.io/theorem_proving_in_lean4/)
