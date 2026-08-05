@@ -1,6 +1,10 @@
 name = "Irrational"
 version = "0.1.0"
-defaultTargets = ["Irrational", "Scrapbook"]
+defaultTargets = ["Chemistry", "Irrational", "Scrapbook"]
+
+[[lean_lib]]
+name = "Chemistry"
+globs = ["Chemistry", "Chemistry.+"]
 
 [[lean_lib]]
 name = "Irrational"

@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := default
 
-PROJECTS := Irrational Scrapbook
+PROJECTS := Irrational Scrapbook Chemistry
 LEAN_PREFIX := $(shell lean --print-prefix 2>/dev/null)
 ifeq ($(LEAN_PREFIX),)
 $(error Lean not found. Please ensure Lean 4 is installed and available in your PATH.)
