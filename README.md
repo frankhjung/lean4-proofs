@@ -111,6 +111,16 @@ To upgrade to a new stable version of the Lean prover (e.g. v4.32.0):
    make update
    ```
 
+## Useful Tactics
+
+* <https://hrmacbeth.github.io/math2001/Index_of_Tactics.html>
+* <https://github.com/madvorak/lean4-tactics>
+* <https://github.com/Colin166/Lean4/blob/main/UsefulTactics.lean>
+
+## Useful Lemmas
+
+* <https://github.com/Colin166/Lean4/blob/main/UsefulLemmas.lean>
+
 ## References
 
 * [Lean 4](https://lean-lang.org)
