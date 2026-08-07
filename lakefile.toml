@@ -1,6 +1,6 @@
 name = "Irrational"
 version = "0.1.0"
-defaultTargets = ["Chemistry", "Irrational", "Scrapbook"]
+defaultTargets = ["Chemistry", "Irrational", "Scrapbook", "Structure"]
 
 [[lean_lib]]
 name = "Chemistry"
@@ -14,7 +14,15 @@ globs = ["Irrational", "Irrational.+"]
 name = "Scrapbook"
 globs = ["Scrapbook", "Scrapbook.+"]
 
+[[lean_lib]]
+name = "Structure"
+globs = ["Structure", "Structure.+"]
+
 [[require]]
 name = "Mathlib"
 scope = "leanprover-community"
 rev = "v4.32.0"
+
+# [[require]]
+# name = "plausible"
+# scope = "leanprover-community"

@@ -62,7 +62,7 @@ jobs:
       - name: Build documentation
         run: |
           cd docbuild
-          lake build Chemistry:docs Irrational:docs Scrapbook:docs
+          lake build Chemistry:docs Irrational:docs Scrapbook:docs Structure:docs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
