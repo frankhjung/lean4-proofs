@@ -11,12 +11,15 @@ import Mathlib.Tactic.Ring
 
 namespace Structure
 
+#eval IO.println "Structure.Structure"
+
 /-!
 # Maths: Proofs with Structure
 
-Examples from [MoP](https://hrmacbeth.github.io/math2001/index.html), [Chapter
-2 Proofs with
-Structure](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html)
+Examples from [MoP](https://hrmacbeth.github.io/math2001/index.html), chapters
+[2.1 Intermediate Steps](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#intermediate-steps)
+and
+[2.2 Invoking lemmas](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#invoking-lemmas)
 
 ## Plausible Tactic
 
@@ -45,7 +48,7 @@ example {r s : ℤ}
 --   : r ≤ 3 := by plausible
 
 /-!
-## [2. 1 Intermediate Steps](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#intermediate-steps)
+## [2.1 Intermediate Steps](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#intermediate-steps)
 
 ### [2.1.1](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#example)
 

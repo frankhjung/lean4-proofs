@@ -8,6 +8,8 @@ import Mathlib.Util.CountHeartbeats
 
 namespace Scrapbook
 
+#eval IO.println "Scrapbook.Scrapbook"
+
 /-!
 # Scrapbook
 

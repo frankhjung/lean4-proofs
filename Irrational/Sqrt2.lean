@@ -3,6 +3,8 @@ import Mathlib.Tactic.Linarith
 
 namespace Irrational
 
+#eval IO.println "Irrational.Sqrt2"
+
 /-!
 # Proof that √2 is irrational.
 

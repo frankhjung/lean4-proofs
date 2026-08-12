@@ -3,6 +3,8 @@ import Mathlib.Tactic.Ring
 
 namespace Irrational
 
+#eval IO.println "Irrational.Log3"
+
 /-!
 
 # Proof that log₂(3) is irrational.

@@ -2,6 +2,8 @@ import Mathlib.Data.Real.Basic
 
 namespace Chemistry
 
+#eval IO.println "Chemistry.Boyle"
+
 /-! Prove Boyle's law
 
 Prove that an ideal gas follows Boyle's Law:

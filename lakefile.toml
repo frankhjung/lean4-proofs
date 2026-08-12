@@ -7,6 +7,10 @@ name = "Chemistry"
 globs = ["Chemistry", "Chemistry.+"]
 
 [[lean_lib]]
+name = "Existence"
+globs = ["Existence", "Existence.+"]
+
+[[lean_lib]]
 name = "Irrational"
 globs = ["Irrational", "Irrational.+"]
 
