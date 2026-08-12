@@ -2,6 +2,7 @@ import Mathlib.Algebra.Group.Defs
 import Mathlib.Analysis.Real.Sqrt
 import Mathlib.Data.Real.Basic
 import Mathlib.Order.Defs.PartialOrder
+import Mathlib.Tactic.GCongr
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Positivity
@@ -92,7 +93,7 @@ example {r s : ℚ}
   have hs : r ≤ 3 - s := by linarith
   calc
     r = (r + r) / 2 := hr -- by hypothesis hr
-    _ ≤ ((s + 3) + (3 - s)) / 2 := by rel [h1, hs]
+    _ ≤ ((s + 3) + (3 - s)) / 2 := by gcongr
     _ = 3 := by ring
 
 /-!
@@ -131,7 +132,7 @@ example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
   apply ne_of_gt
   have hy : y ^ 2 ≥ 0 := sq_nonneg y -- squares are non-negative
   calc
-    y ^ 2 + 1 ≥ 0 + 1 := by rel [hy] -- substitute hy
+    y ^ 2 + 1 ≥ 0 + 1 := by gcongr -- substitute hy
     _ > 0 := by norm_num -- prove inequality using `norm_num`
 
 /-!
@@ -175,7 +176,7 @@ example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
   have h3 : m ≤ 2 * n - 4 := by linarith [h1]
   calc
     m ≤ 2 * n - 4 := h3 -- use h3
-    _ ≤ 2 * 5 - 4 := by rel [h2] -- substitute h2
+    _ ≤ 2 * 5 - 4 := by gcongr -- substitute h2
     _ = 6 := by norm_num -- prove inequality using `norm_num`
 
 /-!
@@ -184,8 +185,8 @@ Solution **2.1.2** given in book.
 example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
   have h3 :=
   calc
-    m + 3 ≤ 2 * n - 1 := by rel [h1]
-    _ ≤ 2 * 5 - 1 := by rel [h2]
+    m + 3 ≤ 2 * n - 1 := by gcongr
+    _ ≤ 2 * 5 - 1 := by gcongr
     _ = 9 := by norm_num
   linarith [h3]
 

@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Group.Nat.Even
 import Mathlib.Data.Real.Basic
+import Mathlib.Tactic.GCongr
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
@@ -111,26 +112,32 @@ Where:
    mathematical theorems used with the `simp` tactic
 
 -/
-example : ∀ m n : ℕ, Even n → Even (m * n) := by
-  intros; simp [*, parity_simps]
+example : ∀ m n : ℕ, Even n → Even (m * n) :=
+  by
+    intros
+    simp [*, parity_simps]
 
-example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
-  rw [mul_comm a]
-  rw [mul_comm b]
-  rw [mul_comm c]
-  rw [mul_assoc b]
+example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
+  by
+    rw [mul_comm a]
+    rw [mul_comm b]
+    rw [mul_comm c]
+    rw [mul_assoc b]
 
-example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
-  rw [mul_comm a (b * c)]
-  rw [mul_assoc b c a]
+example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
+  by
+    rw [mul_comm a (b * c)]
+    rw [mul_assoc b c a]
 
-example (a b c : ℝ) : a * (b * c) = b * (c * a) := by
-  rw [mul_comm]
-  rw [mul_assoc]
+example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
+  by
+    rw [mul_comm]
+    rw [mul_assoc]
 
 /-! Ring example -/
-example (R : Type*) [CommRing R] (x y : R) : (x + y)^3 = x^3 + 3*x^2*y + 3*x*y^2 + y^3 := by
-  ring
+example (R : Type*) [CommRing R] (x y : R)
+  : (x + y)^3 = x^3 + 3*x^2*y + 3*x*y^2 + y^3 :=
+  by ring
 
 /-!
 ## And Commutative
@@ -316,9 +323,9 @@ example {x y : ℤ}
   : y > 3 :=
   calc
     y = y + 2 * x - 2 * x := by ring
-    _ ≥ 3 - 2 * x := by rel [hy] -- rewrite using hy
+    _ ≥ 3 - 2 * x := by gcongr -- rewrite using hy
     _ = 9 - 2 * (x + 3) := by ring
-    _ ≥ 9 - 2 * 2 := by rel [hx] -- rewrite using hx
+    _ ≥ 9 - 2 * 2 := by gcongr -- rewrite using hx
     _ > 3 := by norm_num  -- deterministic calculation
     -- can be more simply done using:
     -- y > 3 := by linarith
@@ -333,7 +340,7 @@ From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 :=
   calc
     r = (s + r + r - s) / 2 := by ring -- add term to use both inequalities
-    _ ≤ (3 + (s + 3) - s) / 2 := by rel [h2, h1] -- substitute hypothesis
+    _ ≤ (3 + (s + 3) - s) / 2 := by gcongr -- substitute hypothesis
     _ = 3 := by linarith -- deterministic calculation
 
 /-!
@@ -350,8 +357,8 @@ example {x y : ℝ}
   : x + y < 2 :=
   calc
     x + y
-    _ ≤ x + (x + 5) := by rel [h1] -- replace y with x + 5
-    _ ≤ -2 + (-2 + 5) := by rel [h2] -- replace x with -2, using ≤ 1
+    _ ≤ x + (x + 5) := by gcongr -- replace y with x + 5
+    _ ≤ -2 + (-2 + 5) := by gcongr -- replace x with -2, using ≤ 1
     _ < 2 := by norm_num -- deterministic calculation
 
 /-!

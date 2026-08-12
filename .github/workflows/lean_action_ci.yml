@@ -33,42 +33,44 @@ jobs:
         with:
           use-mathlib-cache: true
 
-  deploy:
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 1
+  # Don't build documentation as it takes too long.defaults:
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+  # deploy:
+  #   needs: build
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     pages: write
+  #     id-token: write
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   steps:
+  #     - uses: actions/checkout@v7
+  #       with:
+  #         fetch-depth: 1
 
-      - name: Re-build the project
-        uses: leanprover/lean-action@v1
-        with:
-          use-mathlib-cache: true
-          test: false
-          lint: false
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v5
 
-      - name: Build documentation
-        run: |
-          cd docbuild
-          lake build Chemistry:docs Irrational:docs Scrapbook:docs Structure:docs
+  #     - name: Re-build the project
+  #       uses: leanprover/lean-action@v1
+  #       with:
+  #         use-mathlib-cache: true
+  #         test: false
+  #         lint: false
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docbuild/.lake/build/doc
+  #     - name: Build documentation
+  #       run: |
+  #         cd docbuild
+  #         lake build Chemistry:docs Irrational:docs Scrapbook:docs Structure:docs
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+  #     - name: Upload Pages artifact
+  #       uses: actions/upload-pages-artifact@v3
+  #       with:
+  #         path: docbuild/.lake/build/doc
+
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v5
