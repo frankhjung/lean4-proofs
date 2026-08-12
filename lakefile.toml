@@ -1,26 +1,32 @@
 name = "Irrational"
 version = "0.1.0"
-defaultTargets = ["Chemistry", "Irrational", "Scrapbook", "Structure"]
+defaultTargets = [
+  "Chemistry",
+  "Existence",
+  "Irrational",
+  "Scrapbook",
+  "Structure",
+]
 
 [[lean_lib]]
 name = "Chemistry"
-globs = ["Chemistry", "Chemistry.+"]
+globs = ["Chemistry.+"]
 
 [[lean_lib]]
 name = "Existence"
-globs = ["Existence", "Existence.+"]
+globs = ["Existence.+"]
 
 [[lean_lib]]
 name = "Irrational"
-globs = ["Irrational", "Irrational.+"]
+globs = ["Irrational.+"]
 
 [[lean_lib]]
 name = "Scrapbook"
-globs = ["Scrapbook", "Scrapbook.+"]
+globs = ["Scrapbook.+"]
 
 [[lean_lib]]
 name = "Structure"
-globs = ["Structure", "Structure.+"]
+globs = ["Structure.+"]
 
 [[require]]
 name = "Mathlib"
