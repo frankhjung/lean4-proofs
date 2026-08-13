@@ -2,6 +2,7 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.GCongr
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
 
 namespace Existence
 
@@ -34,8 +35,8 @@ Simplified version of **2.5.1**.
 -/
 #count_heartbeats in
 example {a : ℚ} (h : ∃ b : ℚ, a = b ^ 2 + 1) : a ≥ 1 := by
-  obtain ⟨b, hb⟩ := h                     -- extract the existential
-  nlinarith                               -- prove inequality using `nlinarith`
+  obtain ⟨b, hb⟩ := h                  -- extract the existential
+  nlinarith                            -- prove inequality using `nlinarith`
 
 /-!
 Define odd numbers.
@@ -50,9 +51,9 @@ The `use` tactic is smart enough to unfold definitions.
 You can't use the `decide` tactic here as `MyOdd` is not in Mathlib.
 -/
 example : MyOdd (5 : ℤ) := by
-  -- unfold MyOdd                            -- get k from definition
-  use 2                                   -- set k = 2
-  norm_num                                -- prove equality
+  unfold MyOdd                         -- get k from definition
+  use 2                                -- set k = 2
+  norm_num                             -- prove equality
 
 /-!
 Define even numbers.
@@ -65,8 +66,24 @@ Show 4 is even.
 The `use` tactic is smart enough to unfold definitions.
 -/
 example : MyEven (4 : ℤ) := by
-  -- unfold MyEven                           -- get k from definition
-  use 2                                   -- set k = 2
-  norm_num                                -- prove equality
+  unfold MyEven                        -- get k from definition
+  use 2                                -- set k = 2
+  norm_num                             -- prove equality
+
+/-!
+A more complicated example where we show that `2 * n` is always even,
+treating the cases where `n` is even or odd separately.
+-/
+example (n : ℕ) : Even (2 * n) := by
+  -- case split: n is even or odd
+  obtain ⟨e, he⟩ | ⟨o, ho⟩ := n.even_or_odd
+  · -- Even case: n = k + k
+    subst he                          -- substitute n = k + k
+    use 2 * e                         -- provide witness r = 2 * k
+    ring                              -- 2 * (k + k) = 2 * k + 2 * k
+  · -- Odd case: n = 2 * k + 1
+    subst ho                          -- substitute n = 2 * k + 1
+    use 2 * o + 1                     -- provide witness r = 2 * k + 1
+    ring                              -- 2 * (2 * k + 1) = (2 * k + 1) + …
 
 end Existence
