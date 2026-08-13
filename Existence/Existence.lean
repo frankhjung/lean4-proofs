@@ -46,6 +46,8 @@ def MyOdd (a : ℤ) : Prop := ∃ k, a = 2 * k + 1
 Show 5 is odd.
 
 The `use` tactic is smart enough to unfold definitions.
+
+You can't use the `decide` tactic here as `MyOdd` is not in Mathlib.
 -/
 example : MyOdd (5 : ℤ) := by
   -- unfold MyOdd                            -- get k from definition
