@@ -10,8 +10,10 @@ namespace Euclid
 #eval IO.println "Existence.Euclid"
 
 /--
-Euclid's Theorem: There are infinitely many prime numbers.
+**Euclid's Theorem**: There are infinitely many prime numbers:
+
 For every natural number `n`, there exists a prime number `p` such that `n ≤ p`.
+
 -/
 theorem exists_infinite_primes (n : ℕ) :
   ∃ p, n ≤ p ∧ Nat.Prime p := by

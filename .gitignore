@@ -1,8 +1,12 @@
+*.aux
+build/
 .elan/
+*.fdb_latexmk
+*.fls
 .lake/
+lake-packages/
+*.log
 *.olean
 *.olean.lock
+*.synctex.gz
 *.trace
-/.lake
-build/
-lake-packages/

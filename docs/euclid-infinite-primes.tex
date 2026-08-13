@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+
+\begin{theorem}
+For every natural number $n \in \mathbb{N}$, there exists a prime number
+$p$ such that $n \le p$. Consequently, there are infinitely many prime
+numbers.
+\end{theorem}
+
+\begin{proof}
+Let $n \in \mathbb{N}$ be given. Consider the natural number $n! + 1$.
+Since $n! \ge 1$, we have $n! + 1 \ge 2$, so $n! + 1 \neq 1$.
+
+Let $p$ be the smallest prime factor of $n! + 1$. Since $n! + 1 \neq 1$,
+such a prime factor exists, and by definition $p$ is prime.
+
+We now claim that $n \le p$. Suppose, for the sake of contradiction, that
+$p < n$.
+Since $p$ is a positive prime with $p \le n$, $p$ divides the factorial $n!$
+(that is, $p \mid n!$). Furthermore, by definition of $p$, we have
+$p \mid (n! + 1)$.
+
+Since $p$ divides both $n!$ and $n! + 1$, $p$ must also divide their
+difference:
+\[
+p \mid \bigl((n! + 1) - n!\bigr) \implies p \mid 1.
+\]
+However, no prime number divides $1$, yielding a contradiction.
+
+Hence, our assumption that $p < n$ must be false, so $n \le p$. Thus, $p$
+is a prime number satisfying $n \le p$, as required.
+\end{proof}
+
+\end{document}
