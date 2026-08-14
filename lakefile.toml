@@ -4,7 +4,8 @@ defaultTargets = [
   "Chemistry",
   "Existence",
   "Irrational",
-  "Scrapbook",
+  "Mathematics",
+  "Physics",
   "Structure",
 ]
 
@@ -21,12 +22,12 @@ name = "Irrational"
 globs = ["Irrational.+"]
 
 [[lean_lib]]
-name = "Physics"
-globs = ["Physics.+"]
+name = "Mathematics"
+globs = ["Mathematics.+"]
 
 [[lean_lib]]
-name = "Scrapbook"
-globs = ["Scrapbook.+"]
+name = "Physics"
+globs = ["Physics.+"]
 
 [[lean_lib]]
 name = "Structure"

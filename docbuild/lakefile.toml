@@ -1,5 +1,13 @@
 name = "docbuild"
-defaultTargets = ["Irrational", "Scrapbook"]
+defaultTargets = [
+  "Chemistry",
+  "Existence",
+  "Irrational",
+  "Mathematics",
+  "Physics",
+  "Structure",
+]
+
 reservoir = false
 version = "0.1.0"
 packagesDir = "../.lake/packages"
@@ -13,9 +21,21 @@ name = "doc-gen4"
 rev = "v4.32.0"
 
 [[require]]
+name = "Existence"
+path = "../"
+
+[[require]]
 name = "Irrational"
 path = "../"
 
 [[require]]
-name = "Scrapbook"
+name = "Mathematics"
+path = "../"
+
+[[require]]
+name = "Physics"
+path = "../"
+
+[[require]]
+name = "Structure"
 path = "../"

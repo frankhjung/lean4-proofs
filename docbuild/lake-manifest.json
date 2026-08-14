@@ -3,7 +3,7 @@
  "packages":
  [{"type": "path",
    "scope": "",
-   "name": "Scrapbook",
+   "name": "Mathematics",
    "manifestFile": "lake-manifest.json",
    "inherited": false,
    "dir": "../",

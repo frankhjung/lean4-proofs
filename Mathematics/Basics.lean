@@ -6,16 +6,15 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Util.CountHeartbeats
 
-namespace Scrapbook
+namespace Basics
 
-#eval IO.println "Scrapbook.Scrapbook"
+#eval IO.println "Mathematics.Basics"
 
 /-!
-# Scrapbook
+# Mathematics
 
 A work scrapbook while learning [Mathematics in
 Lean](https://leanprover-community.github.io/mathematics_in_lean)
-
 -/
 
 /-! Function $f (x) = 3x$ -/
@@ -42,12 +41,10 @@ theorem f1_eq_3 : f 1 = 3 := rfl
 -- f1_eq_3 : f 1 = 3
 
 /-!
-## Example
+## Using Example
 
 An *example* is an anonymous definition that is elaborated and then discarded.
--/
 
-/-!
 Even numbers: $m × even$ is still even.
 -/
 example : ∀ m n : ℕ, Even n → Even (m * n) :=
@@ -56,13 +53,11 @@ example : ∀ m n : ℕ, Even n → Even (m * n) :=
   show ∃ l, m * n = l + l from ⟨_, hmn⟩
 
 /-!
-
 Same proof compressed to one line.
 
 Here, `mul_add` is a standard theorem for distributing multiplication over
 addition. It states that for elements `a`, `b`, and `c`, `\(a × (b + c) = (a ×
 b) + (a × c)`. It acts as a shortcut for expanding brackets.
-
 -/
 example : ∀ m n : ℕ, Even n → Even (m * n) :=
   fun m n ⟨k, hk⟩ ↦ ⟨m * k, by rw [hk, mul_add]⟩
@@ -91,6 +86,7 @@ one line proof compressed with  semicolons.
 `rintro` is a shorthand for the tactics `intros` and `rcases`.
 
 Where:
+
 - `intros` repeatedly applies `intro` to introduce hypotheses
 - `rcases` performs `cases` recursively
 - `cases` splits goal into each case
@@ -98,21 +94,19 @@ Where:
 **Notes**
 
 - Semicolons can be used to separate tactics in a proof
-
 -/
 example : ∀ m n : ℕ, Even n → Even (m * n) := by
   rintro m n ⟨k, hk⟩; use m * k; rw [hk]; ring
 
 /-!
-
 Lean has a simplifier tactic that can prove this automatically:
 
 Where:
+
 - `simp` tactic uses lemmas and hypotheses to simplify the main
    goal target or non-dependent hypotheses
 - `parity_simps` (Mathlib) is a specialized collection of
    mathematical theorems used with the `simp` tactic
-
 -/
 example : ∀ m n : ℕ, Even n → Even (m * n) :=
   by
@@ -149,7 +143,6 @@ Lean](https://lean-lang.org/theorem_proving_in_lean4/Introduction/#Intro)
 
 It declares a theorem named `and_commutative` stating that for any propositions
 `p` and `q`, `p ∧ q` implies `q ∧ p`. The `:=` begins the proof.
-
 -/
 theorem and_commutative (p q : Prop) : p ∧ q → q ∧ p :=
   -- Assumes the premise `p ∧ q` is true and binds its proof to the name `hpq`.
@@ -168,10 +161,10 @@ theorem and_commutative (p q : Prop) : p ∧ q → q ∧ p :=
   -- the proposition being proved for clarity.
   show q ∧ p from And.intro hq hp
 
-/-! ## Solving Word Problems -/
-
 /-!
-### Problem 1
+## Solving Word Problems
+
+### Problem 1.1.1 - Plane Speed
 
 The following is an example of how to solve a word problem.
 
@@ -198,7 +191,6 @@ What we want is to calculate the planes wind speed in still air ($x$).
 Answer:
 - $x = 120$
 - $y = 150-120 = 30$
-
 -/
 example {x y : ℝ}
   (h1: x + y = 150)
@@ -220,7 +212,7 @@ example {x y : ℝ}
   exact ⟨h_x, h_y⟩
 
 /-!
-### Problem 2
+### Problem 1.1.2 - Ohm's Law
 
 A resistor has a resistance of 4 ohms and a current of 3 Amps flows through it.
 Prove the voltage across the resistor is 12 Volts.
@@ -231,7 +223,6 @@ Where:
 - $v$ = Voltage (in Volts)
 - $I$ = Current (in Amps)
 - $R$ = Resistance (in Ohms)
-
 -/
 example {v I R : ℝ}
   (h1 : I = 3)
@@ -249,7 +240,44 @@ example {v I R : ℝ}
       norm_num
 
 /-!
-### Problem 3
+### Problem 1.1.3 - Toy Mouse
+
+A toy mouse changes speed from 2 m/s to 0 m/s in the span of 2 seconds. It's
+mass is estimated to be around 0.1 kg. The toy can only handle 2 Netwons of
+force (otherwise it breaks). Prove that the force it experiences in stopping is
+below that limit.
+-/
+example {f v₀ v₁ m t a : ℝ}
+  (h1 : v₀ = 2)
+  (h2 : v₁ = 0)
+  (h3 : m = 0.1)
+  (h4 : t = 2)
+  (h5 : a = (v₁ - v₀) / t)
+  (h6 : f = m * a)
+  : f < 2 :=
+  calc
+    f = m * a := by rw [h6]
+    _ = m * ((v₁ - v₀) / t) := by rw [h5]
+    _ = 0.1 * ((0 - 2) / 2) := by rw [h3, h2, h1, h4]
+    _ < 2 := by linarith -- as the calculation is deterministic
+
+/-!
+## Problem 1.1.4 - Floating Point Values
+
+Floating point values are not exact.
+
+See <https://0.30000000000000004.com/>
+
+-/
+#eval (0.1 : Float) + (0.2 : Float) == (0.3 : Float)
+-- false
+
+#eval (0.1 : Float) + (0.2 : Float)
+-- 0.30000000000000004
+
+
+/-!
+### Problem 1.2.1
 
 Given:
 - $a - b = 4$
@@ -274,7 +302,7 @@ example {a b : ℚ}
     _ = 20 := by norm_num -- numerical calculation
 
 /-!
-### Problem 4
+### Problem 1.2.4
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 [1.2.4](https://hrmacbeth.github.io/math2001/01_Proofs_by_Calculation.html#id15)
@@ -290,30 +318,7 @@ example {a b c d e f : ℤ}
     _ = 0 := by ring
 
 /-!
-### Problem 5
-
-A toy mouse changes speed from 2 m/s to 0 m/s in the span of 2 seconds. It's
-mass is estimated to be around 0.1 kg. The toy can only handle 2 Netwons of
-force (otherwise it breaks). Prove that the force it experiences in stopping is
-below that limit.
-
--/
-example {f v₀ v₁ m t a : ℝ}
-  (h1 : v₀ = 2)
-  (h2 : v₁ = 0)
-  (h3 : m = 0.1)
-  (h4 : t = 2)
-  (h5 : a = (v₁ - v₀) / t)
-  (h6 : f = m * a)
-  : f < 2 :=
-  calc
-    f = m * a := by rw [h6]
-    _ = m * ((v₁ - v₀) / t) := by rw [h5]
-    _ = 0.1 * ((0 - 2) / 2) := by rw [h3, h2, h1, h4]
-    _ < 2 := by linarith -- as the calculation is deterministic
-
-/-!
-### Problem 6
+### Problem 1.4.1
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 [1.4.1](https://hrmacbeth.github.io/math2001/01_Proofs_by_Calculation.html#id33)
@@ -333,7 +338,7 @@ example {x y : ℤ}
     -- y > 3 := by linarith
 
 /-!
-### Problem 7
+### Problem 1.4.2
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 [1.4.2](https://hrmacbeth.github.io/math2001/01_Proofs_by_Calculation.html#id35)
@@ -346,7 +351,7 @@ example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 :=
     _ = 3 := by linarith -- deterministic calculation
 
 /-!
-### Problem 8.1
+### Problem 1.4.3 - Complete Solution
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 [1.4.3](https://hrmacbeth.github.io/math2001/01_Proofs_by_Calculation.html#id37)
@@ -364,7 +369,7 @@ example {x y : ℝ}
     _ < 2 := by norm_num -- deterministic calculation
 
 /-!
-### Problem 8.2
+### Problem 1.4.3 - Simplified Solution
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
 [1.4.3](https://hrmacbeth.github.io/math2001/01_Proofs_by_Calculation.html#id37)
@@ -379,17 +384,30 @@ example {x y : ℝ}
     x + y < 2 := by linarith
 
 /-!
-## Floating Point Values
+## "Or" in proof by cases
 
-Floating point values are not exact.
+From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
+[2.3.6](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#id22)
 
-See <https://0.30000000000000004.com/>
-
+Exercise 7. Let $x$ and $y$ be real numbers for which $y = 2x + 1$.
+Show that either $x < y/2$ or $x > y/2$.
 -/
-#eval (0.1 : Float) + (0.2 : Float) == (0.3 : Float)
--- false
+example {x y : ℝ}
+  (h : y = 2 * x + 1)
+  : x < y / 2 ∨ x > y / 2 := by
+  left
+  linarith
 
-#eval (0.1 : Float) + (0.2 : Float)
--- 0.30000000000000004
+/-! Alternate solution. -/
+example {x y : ℝ}
+  (h : y = 2 * x + 1)
+  : x < y / 2 ∨ x > y / 2 := by
+  have hx : x < y / 2 := by
+    calc
+      x < x + (1 / 2 : ℝ) := by linarith
+      _ = y / 2 := by
+        rw [h]
+        ring
+  exact Or.inl hx
 
-end Scrapbook
+end Basics
