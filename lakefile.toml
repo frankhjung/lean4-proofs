@@ -21,6 +21,10 @@ name = "Irrational"
 globs = ["Irrational.+"]
 
 [[lean_lib]]
+name = "Physics"
+globs = ["Physics.+"]
+
+[[lean_lib]]
 name = "Scrapbook"
 globs = ["Scrapbook.+"]
 

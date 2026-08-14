@@ -131,6 +131,7 @@ LaTeX: [docs/README.md](docs/README.md)
 * [Lean 4](https://lean-lang.org)
 * [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
 * [The Mechanics of Proof](https://hrmacbeth.github.io/math2001/index.html)
-* [Mathlib](https://lean-lang.org/use-cases/mathlib/)
+* [Mathlib](https://leanprover-community.github.io/)
+  * [Use Case](https://lean-lang.org/use-cases/mathlib/)
 * [Theorem Proving in Lean 4](http://leanprover.github.io/theorem_proving_in_lean4/)
 
