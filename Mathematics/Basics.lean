@@ -10,35 +10,29 @@ namespace Basics
 
 #eval IO.println "Mathematics.Basics"
 
-/-!
-# Mathematics
+/-! # Mathematics -/
 
-A work scrapbook while learning [Mathematics in
+/-! A work scrapbook while learning [Mathematics in
 Lean](https://leanprover-community.github.io/mathematics_in_lean)
 -/
 
 /-! Function $f (x) = 3x$ -/
-def f (x : ℕ) := 3 * x
+def f (x : ℕ) := 3 * x        -- ℕ → ℕ
 
 /-! Evaluate function $f$ at $x = 1$. -/
-#eval f 1 = 3
--- true
+#eval f 1 = 3                 -- true
 
 /-! Equivalent to $f$ above. -/
-#check fun (x : ℕ) => 3 * x
--- fun x => 3 * x : ℕ → ℕ
+#check fun (x : ℕ) => 3 * x   -- fun x => 3 * x : ℕ → ℕ
 
-#check λ (x : ℕ) => 3 * x
--- fun x => 3 * x : ℕ → ℕ
+#check λ (x : ℕ) => 3 * x     -- fun x => 3 * x : ℕ → ℕ
 
-#eval (λ x : ℕ => 3 * x) 12
--- 36
+#eval (λ x : ℕ => 3 * x) 12   -- 36
 
 /-! Simple test of function $f (1) = 3$ -/
 theorem f1_eq_3 : f 1 = 3 := rfl
 
-#check f1_eq_3
--- f1_eq_3 : f 1 = 3
+#check f1_eq_3                -- f1_eq_3 : f 1 = 3
 
 /-!
 ## Using Example
@@ -48,9 +42,9 @@ An *example* is an anonymous definition that is elaborated and then discarded.
 Even numbers: $m × even$ is still even.
 -/
 example : ∀ m n : ℕ, Even n → Even (m * n) :=
-  fun m n ⟨k, (hk : n = k + k)⟩ ↦
-  have hmn : m * n = m * k + m * k := by rw [hk, mul_add]
-  show ∃ l, m * n = l + l from ⟨_, hmn⟩
+  fun m n ⟨k, (hk : n = k + k)⟩ ↦           -- bind m, n and unpack `Even n`
+  have hmn : m * n = m * k + m * k := by rw [hk, mul_add] -- rewrite via hk & mul_add
+  show ∃ l, m * n = l + l from ⟨_, hmn⟩     -- witness `l = m * k` via `hmn`
 
 /-!
 Same proof compressed to one line.
@@ -68,6 +62,7 @@ We can also use tactics to prove this.
 example : ∀ m n : ℕ, Even n → Even (m * n) := by
   -- Say `m` and `n` are natural numbers,
   -- and `Even n` implies `n = k + k` for some `k` in `ℕ`
+  -- `rintro` is a shorthand for `intros` and `rcases`
   rintro m n ⟨k, hk⟩
   -- We need to show `m × n` is twice a natural number
   -- Let's show it's twice `m × k`
@@ -113,18 +108,21 @@ example : ∀ m n : ℕ, Even n → Even (m * n) :=
     intros
     simp [*, parity_simps]
 
+/-! Commutativity and associativity of multiplication for real numbers -/
 example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
   by
-    rw [mul_comm a]
-    rw [mul_comm b]
-    rw [mul_comm c]
-    rw [mul_assoc b]
+    rw [mul_comm a]         -- b * c * a = b * (c * a)
+    rw [mul_comm b]         -- c * b * a = b * (c * a)
+    rw [mul_comm c]         -- b * c * a = b * (c * a)
+    rw [mul_assoc b]        -- b * (c * a) = b * (c * a)
 
+/-! Same proof with less explicit rewriting -/
 example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
   by
     rw [mul_comm a (b * c)]
     rw [mul_assoc b c a]
 
+/-! Same proof with less rewriting -/
 example (a b c : ℝ) : a * (b * c) = b * (c * a) :=
   by
     rw [mul_comm]
@@ -387,10 +385,105 @@ example {x y : ℝ}
 ## "Or" in proof by cases
 
 From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
-[2.3.6](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#id22)
+[2.3](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#or-and-proof-by-cases)
 
-Exercise 7. Let $x$ and $y$ be real numbers for which $y = 2x + 1$.
-Show that either $x < y/2$ or $x > y/2$.
+[2.3.1](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#id17)
+Let $x$ and $y$ be real numbers and suppose that either $x = 1$ or
+$y = -1$. Show that $xy + x = y + 1$.
+-/
+example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
+  cases h
+  case inl hx =>  -- case when x = 1
+    calc
+      x * y + x = 1 * y + 1 := by rw [hx]
+      _ = y + 1 := by ring -- as x = 1
+  case inr hy =>  -- case when y = -1
+    calc
+      x * y + x = x * (-1) + x := by rw [hy]
+      _ = -x + x := by ring
+      _ = 0 := by ring
+      _ = -1 + 1 := by ring
+      _ = y + 1 := by rw [hy]
+
+/-! The above can be simplified using `cases`: -/
+example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
+  cases h
+  case inl hx =>  -- case when x = 1
+    rw [hx]
+    ring
+  case inr hy =>  -- case when y = -1
+    rw [hy]
+    ring
+
+/-! Same, but using `obtain`: -/
+example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
+  obtain hx | hy := h
+  · rw [hx] -- as x = 1
+    ring -- ring calculation
+  · rw [hy] -- as y = -1
+    ring -- ring calculation
+
+/-! Same, but using `rcases`: -/
+example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
+  rcases h with (hx | hy)
+  · rw [hx]
+    ring
+  · rw [hy]
+    ring
+
+/-!
+From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
+[2.3.2](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#sq-ne-two)
+
+Let $n$ be any natural number. Show that $n^2 ≠ 2$.
+
+Proof strategy:
+
+Perform case analysis on n ∈ ℕ across three cases:
+
+- n = 0: 0² = 0 ≠ 2, resolved by computation
+- n = 1: 1² = 1 ≠ 2, resolved by computation
+- n ≥ 2 (n = k + 2): (k + 2)² = k² + 4k + 4 ≥ 4 > 2, establishing strict inequality via `ne_of_gt`
+-/
+example {n : ℕ} : n ^ 2 ≠ 2 := by
+  rcases n with _ | _ | n -- n = 0, 1, k + 2 for k >= 0
+  · decide                -- n = 0: 0² = 0 ≠ 2
+  · decide                -- n = 1: 1² = 1 ≠ 2
+  · apply ne_of_gt        -- a ≠ b => a > b
+    calc
+      (n + 2) ^ 2 = n ^ 2 + 4 * n + 4 := by ring
+      _ > 2 := by omega   -- n ≥ 0, n² ≥ 0
+
+/-!
+From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
+[2.3.6 #1](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#id22)
+Let $x$ be a rational number and suppose that $x = 4$ or
+$x = -4$. Show that $x^2 + 1 = 17$.
+-/
+example {x : ℚ} (h : x = 4 ∨ x = -4) : x ^ 2 + 1 = 17 := by
+  cases h
+  case inl hx =>  -- case when x = 4
+    calc
+      x ^ 2 + 1 = 4 ^ 2 + 1 := by rw [hx]
+      _ = 17 := by norm_num
+  case inr hy =>  -- case when x = -4
+    calc
+      x ^ 2 + 1 = (-4) ^ 2 + 1 := by rw [hy]
+      _ = 17 := by norm_num
+
+/-!
+From [MoP](https://hrmacbeth.github.io/math2001/index.html), problem
+[2.3.6 #7](https://hrmacbeth.github.io/math2001/02_Proofs_with_Structure.html#id22)
+
+Let $x$ and $y$ be real numbers for which $y = 2x + 1$. Show that
+either $x < y/2$ or $x > y/2$.
+
+Proof strategy:
+
+To prove a disjunction $P \lor Q$, establish one of the two branches:
+- Since $y = 2x + 1$, $y/2 = x + 1/2 > x$.
+- Select the left disjunct with `left` and discharge the linear relation
+  with `linarith`.
 -/
 example {x y : ℝ}
   (h : y = 2 * x + 1)
@@ -398,7 +491,10 @@ example {x y : ℝ}
   left
   linarith
 
-/-! Alternate solution. -/
+/-!
+Alternate solution: Constructively establish the left disjunct `hx : x < y / 2`
+via `calc`, then apply the `Or.inl` constructor.
+-/
 example {x y : ℝ}
   (h : y = 2 * x + 1)
   : x < y / 2 ∨ x > y / 2 := by
@@ -409,5 +505,19 @@ example {x y : ℝ}
         rw [h]
         ring
   exact Or.inl hx
+
+/-!
+Alternate solution: Use `rcases h with rfl` to substitute `y` with `2 * x + 1`
+directly in the goal, then select the left branch with `left` and `linarith`.
+-/
+example {x y : ℝ}
+  (h : y = 2 * x + 1)
+  : x < y / 2 ∨ x > y / 2 := by
+  rcases h with rfl -- substitute y with 2 * x + 1
+  -- Now goal is x < (2 * x + 1) / 2 ∨ x > (2 * x + 1) / 2
+  -- which is equivalent to x < x + 1/2 ∨ x > x + 1/2
+  -- which evaluates to: True ∨ False (i.e. True)
+  left -- select the left branch: x < (2 * x + 1) / 2
+  linarith -- prove the goal as 0 < 1/2
 
 end Basics
