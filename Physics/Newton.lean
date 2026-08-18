@@ -1,4 +1,6 @@
 import Mathlib.Data.Real.Basic
+import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib.Analysis.Calculus.Deriv.ZPow
 
 namespace Physics
 
@@ -49,5 +51,37 @@ theorem zero_force_zero_acceleration {F m a : ℝ}
   have hma : m * a = 0 := by rw [← h₁, hf]
   -- Split the product equation and discard the impossible `m = 0` branch.
   exact (mul_eq_zero.mp hma).resolve_left hm
+
+/-!
+Writing proofs about functions defined outside. -/
+variable (k x x_eq : ℝ)
+noncomputable def force (x : ℝ) : ℝ := -k * (x - x_eq)
+noncomputable def energy (x : ℝ) : ℝ := (k/2) * (x - x_eq)^2
+
+#check force
+#check energy
+
+#count_heartbeats in
+theorem force_derivative_energy (x : ℝ) :
+  deriv (energy k x_eq) x = - force k x_eq x := by
+  unfold energy force
+  simp only [deriv_const_mul_field', deriv_fun_pow, deriv_fun_sub,
+    deriv_id'', deriv_const', differentiableAt_fun_id, differentiableAt_const,
+    DifferentiableAt.fun_sub]
+  ring
+
+/-!
+**Simplified**:  The above can be simplified to just. But this is much less
+efficient:
+
+- theorem: Used 33 heartbeats
+- example: Used 1616
+-/
+#count_heartbeats in
+example (x : ℝ) :
+  deriv (energy k x_eq) x = - force k x_eq x := by
+  unfold energy force
+  simp
+  ring
 
 end Physics

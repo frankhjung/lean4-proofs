@@ -1,4 +1,7 @@
 import Mathlib.Algebra.Group.Nat.Even
+import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib.Analysis.Calculus.Deriv.Inv
+import Mathlib.Analysis.Calculus.Deriv.ZPow
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.GCongr
 import Mathlib.Tactic.Linarith
@@ -507,6 +510,10 @@ example {x y : ℝ}
   exact Or.inl hx
 
 /-!
+## [Derivatives](https://leanprover-community.github.io/mathematics_in_lean/C12_Differential_Calculus.html),
+-/
+
+/-!
 Alternate solution: Use `rcases h with rfl` to substitute `y` with `2 * x + 1`
 directly in the goal, then select the left branch with `left` and `linarith`.
 -/
@@ -519,5 +526,22 @@ example {x y : ℝ}
   -- which evaluates to: True ∨ False (i.e. True)
   left -- select the left branch: x < (2 * x + 1) / 2
   linarith -- prove the goal as 0 < 1/2
+
+/-!
+To help solve
+[derivatives](https://leanprover-community.github.io/mathematics_in_lean/C12_Differential_Calculus.html),
+ use the `simp?` and `aesop?` tactics.
+-/
+example (x : ℝ) : deriv (fun x => 1 / x) x = - 1 / (x ^ 2) := by
+  simp only [one_div, deriv_inv, neg_div]
+
+/-!
+Reshape function so we can use standard goals.
+
+You do need to set type for the numeric values as the default (ℕ) does not work.
+-/
+example (x : ℚ) : deriv (fun x => x ^ (-2 : ℤ)) x = (-2 : ℤ) * x ^ (-3 : ℤ) := by
+  rw [show (-3 : ℤ) = -2 -1 by ring]
+  apply deriv_zpow (-2 : ℤ)
 
 end Basics
