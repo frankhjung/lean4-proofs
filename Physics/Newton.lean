@@ -53,7 +53,8 @@ theorem zero_force_zero_acceleration {F m a : ℝ}
   exact (mul_eq_zero.mp hma).resolve_left hm
 
 /-!
-Writing proofs about functions defined outside. -/
+Writing proofs about functions defined outside.
+-/
 variable (k x x_eq : ℝ)
 noncomputable def force (x : ℝ) : ℝ := -k * (x - x_eq)
 noncomputable def energy (x : ℝ) : ℝ := (k/2) * (x - x_eq)^2
@@ -61,6 +62,9 @@ noncomputable def energy (x : ℝ) : ℝ := (k/2) * (x - x_eq)^2
 #check force
 #check energy
 
+/-!
+Theorem: Force is the negative derivative of energy.  This is a simple consequence of the chain rule and the power rule.  The proof is a bit long, but it is straightforward.
+-/
 #count_heartbeats in
 theorem force_derivative_energy (x : ℝ) :
   deriv (energy k x_eq) x = - force k x_eq x := by

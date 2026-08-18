@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, amssymb}
+
+\begin{document}
+
+\section*{Theorem and Proof}
+
+\textbf{Definitions.} Let $k, x, x_{eq} \in \mathbb{R}$. We define the force function $F(x)$ and the energy function $E(x)$ as follows:
+\begin{align*}
+    F(x) &= -k(x - x_{eq}) \\
+    E(x) &= \frac{k}{2}(x - x_{eq})^2
+\end{align*}
+
+\textbf{Theorem.} The derivative of the energy function with respect to $x$ is equal to the negative of the force function. That is,
+\[
+\frac{d}{dx} E(x) = -F(x)
+\]
+
+\begin{proof}
+    We begin by expanding the definition of the energy function on the left-hand side:
+    \[
+    \frac{d}{dx} E(x) = \frac{d}{dx} \left[ \frac{k}{2}(x - x_{eq})^2 \right]
+    \]
+    By the constant multiple rule for differentiation, we can factor out the constant $\frac{k}{2}$:
+    \[
+    \frac{d}{dx} E(x) = \frac{k}{2} \cdot \frac{d}{dx} \left[ (x - x_{eq})^2 \right]
+    \]
+    Next, we apply the chain rule and the power rule to differentiate the squared term. The outer function is $u^2$ and the inner function is $u = x - x_{eq}$. 
+    \[
+    \frac{d}{dx} \left[ (x - x_{eq})^2 \right] = 2(x - x_{eq}) \cdot \frac{d}{dx}(x - x_{eq})
+    \]
+    Since the derivative of $x$ is $1$ and the derivative of the constant $x_{eq}$ is $0$, the inner derivative is simply $1$. Substituting this back yields:
+    \[
+    \frac{d}{dx} E(x) = \frac{k}{2} \cdot 2(x - x_{eq}) \cdot 1
+    \]
+    Simplifying the algebraic expression by canceling the $2$s, we get:
+    \[
+    \frac{d}{dx} E(x) = k(x - x_{eq})
+    \]
+    Now, we unfold the definition of the negative force function, $-F(x)$:
+    \[
+    -F(x) = -\left( -k(x - x_{eq}) \right) = k(x - x_{eq})
+    \]
+    Since both $\frac{d}{dx} E(x)$ and $-F(x)$ simplify to the exact same algebraic expression, we conclude that:
+    \[
+    \frac{d}{dx} E(x) = -F(x)
+    \]
+    This completes the proof.
+\end{proof}
+
+\end{document}
