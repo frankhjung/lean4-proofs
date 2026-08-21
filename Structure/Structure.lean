@@ -9,6 +9,18 @@ import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.Ring
 -- import Plausible
 
+/-!
+Generic implementation for getting a slice of a list.
+
+This extends `List` with a slice function.
+ -/
+def List.slice {α : Type u}
+    (l : List α)  -- the list to slice
+    (s : ℕ := 0) -- start index for slice
+    (e : ℕ := l.length) -- end index for slice
+    : List α :=
+  (l.drop s).take (e - s)
+
 namespace Structure
 
 #eval IO.println "Structure.Structure"
@@ -42,6 +54,7 @@ example {r s : ℤ}
 ```
 
 -/
+
 -- example {r s : ℤ}
 --   (h1 : s + 3 ≥ r)
 --   (h2 : s + r ≤ 3)
@@ -243,5 +256,79 @@ example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t = 3 := by
       _ = t * 3 := by ring
   have ht : t ≠ 0 := by linarith [h2]
   exact mul_left_cancel₀ ht h3
+
+/-!
+Polymorphic Point.
+-/
+structure Point (α : Type) where
+  x : α
+  y : α
+deriving Repr
+
+/-!
+Derive `ToString` instance for `Point`.
+-/
+instance [ToString α] : ToString (Point α) where
+  toString p := s!"({p.x}, {p.y})"
+
+#check Point
+
+/--
+Create a point using Natural numbers.
+-/
+def origin : Point ℕ := { x := 0, y := 0 }
+
+#check origin
+#eval IO.println s!"origin: {origin}"
+
+/--
+Lists functions.
+
+**Note**
+
+If you know a list is non-empty but haven't formally proven it to Lean, use the
+`!` suffix (e.g., `tail!`, `head!`). This extracts the value directly but will
+**panic (crash)** your program if the list actually turns out to be empty.
+
+If you are not sure whether a list is empty, use the `?` suffix (e.g., `tail?`,
+`head?`), which safely returns an `Option`.
+-/
+def primes : List ℕ := [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+
+#eval IO.println s!"primes: {primes}"
+#eval IO.println s!"primes.tail: {primes.tail}"
+#eval IO.println s!"primes.head!: {primes.head!}"
+#eval IO.println s!"primes.getLast!: {primes.getLast!}"
+#eval IO.println s!"primes.filter (λ x => x < 11): {primes.filter (λ x => x < 11)}"
+
+/--
+Sum a list of numbers.
+
+In Lean, (· + ·) is shorthand for an anonymous function with two placeholders:
+
+```lean
+(· + ·) = fun x y => x + y
+```
+
+This is equivalent to the Haskell's `(+)` operator.
+-/
+def sumList (l : List ℕ) : ℕ :=
+  l.foldl (· + ·) 0
+
+#eval IO.println s!"sumList primes: {sumList primes}" -- 129
+#eval IO.println s!"sumList primes == primes.sum: {sumList primes == primes.sum}"
+
+/-!
+Length of a (polymorphic) list.
+-/
+def lengthList {α : Type} (l : List α) : ℕ :=
+  l.foldl (fun acc _ => acc + 1) 0
+
+#eval IO.println s!"lengthList primes: {lengthList primes}" -- 10
+#eval IO.println s!"lengthList primes == List.length primes: {lengthList primes == List.length primes}"
+#eval IO.println s!"lengthList primes == primes.length: {lengthList primes == primes.length}"
+
+#eval IO.println s!"primes.slice: {primes.slice 3 7}" -- [7, 11, 13, 17]
+#eval IO.println s!"primes.slice: {primes.slice 10 11}"
 
 end Structure

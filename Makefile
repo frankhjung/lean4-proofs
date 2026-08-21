@@ -37,6 +37,8 @@ doc: ## Generate documentation using Lake
 
 clean: ## Clean the build artifacts
 	@$(LAKE) clean
+	@$(CD) docbuild && \
+	$(LAKE) clean
 
 # To upgrade to a new stable Lean version (e.g. v4.32.0):
 #

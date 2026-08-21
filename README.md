@@ -111,7 +111,7 @@ To upgrade to a new stable version of the Lean prover (e.g. v4.32.0):
    make update
    ```
 
-## Render Lean 4 to LaTeX
+## [Render Lean 4 to LaTeX](docs/README.md)
 
 This page explains how render a human readable version of a proof from Lean 4 to
 LaTeX: [docs/README.md](docs/README.md)
